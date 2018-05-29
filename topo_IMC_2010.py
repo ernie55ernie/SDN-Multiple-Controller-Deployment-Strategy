@@ -2,7 +2,7 @@ from mininet.topo import Topo
 from mininet.log import setLogLevel
 from mininet.net import Mininet
 from mininet.link import TCLink
-from mininet.node import OVSController
+from mininet.node import RemoteController#OVSController
 from mininet.cli import CLI
 
 topo_file = 'topology/unv1.cdp.txt'
@@ -35,13 +35,13 @@ class IMCTopo(Topo):
 				else:
 					destination_switch = self.switch_names[destination_device]
 
-				self.addLink(source_switch, destination_switch, intfName1 = source_interface, intfName2 = destination_interface)
+				self.addLink(source_switch, destination_switch)#, intfName1 = source_interface, intfName2 = destination_interface)
 
 if __name__ == '__main__':
 	setLogLevel('info')
 
 	topo = IMCTopo()
-	net = Mininet(topo = topo, link = TCLink, autoSetMacs = True, autoStaticArp = True, controller = OVSController)
+	net = Mininet(topo = topo, link = TCLink, autoSetMacs = True, autoStaticArp = True, controller = RemoteController)
 
 	net.start()
 
