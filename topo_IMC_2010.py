@@ -5,13 +5,13 @@ from mininet.link import TCLink
 from mininet.node import OVSController
 from mininet.cli import CLI
 
-topo_file = 'topology/uv1.cdp.txt'
+topo_file = 'topology/unv1.cdp.txt'
 
 class IMCTopo(Topo):
 	def __init__(self, **opts):
 		Topo.__init__(self, **opts)
 
-		self.switches = {}
+		self.switch_names = {}
 
 		# columns of topology file:
 		#  source_device 
@@ -22,18 +22,20 @@ class IMCTopo(Topo):
 			for line in f:
 				list_of_line = line.split()
 				source_device, source_interface, destination_device, destination_interface = list_of_line[0], list_of_line[1], list_of_line[2], list_of_line[3]
-				
-				if source_device not in self.switches:
+				print(source_device, source_interface, destination_device, destination_interface)
+				if source_device not in self.switch_names:
 					source_switch = self.addSwitch(source_device)
+					self.switch_names[source_device] = source_switch
 				else:
-					source_switch = self.switches[source_device]
+					source_switch = self.switch_names[source_device]
 
-				if destination_device not in self.switches:
+				if destination_device not in self.switch_names:
 					destination_switch = self.addSwitch(destination_device)
+					self.switch_names[destination_device] = destination_switch
 				else:
-					destination_switch = self.switches[destination_deivce]
+					destination_switch = self.switch_names[destination_device]
 
-				self.addLink(source_switch, destination_switch, source_interface, destination_interface)
+				self.addLink(source_switch, destination_switch, intfName1 = source_interface, intfName2 = destination_interface)
 
 if __name__ == '__main__':
 	setLogLevel('info')
