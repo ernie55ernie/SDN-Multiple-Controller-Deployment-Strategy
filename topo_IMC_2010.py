@@ -37,6 +37,7 @@ class IMCTopo(Topo):
 
 				self.addLink(source_switch, destination_switch)#, intfName1 = source_interface, intfName2 = destination_interface) # wan mesh
 
+		print(h, destination_switch)
 		h = self.addHost('h0')
 		self.addLink(h, destination_switch)
 
