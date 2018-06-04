@@ -35,13 +35,19 @@ class IMCTopo(Topo):
 				else:
 					destination_switch = self.switch_names[destination_device]
 
-				self.addLink(source_switch, destination_switch)#, intfName1 = source_interface, intfName2 = destination_interface)
+				self.addLink(source_switch, destination_switch)#, intfName1 = source_interface, intfName2 = destination_interface) # wan mesh
+
+		h = self.addHost('h0')
+		self.addLink(h, destination_switch)
 
 if __name__ == '__main__':
 	setLogLevel('info')
 
+	# calculate where to deploy controllers
+
 	topo = IMCTopo()
-	net = Mininet(topo = topo, link = TCLink, autoSetMacs = True, autoStaticArp = True, controller = RemoteController)
+	net = Mininet(topo = topo, link = TCLink, autoSetMacs = True, autoStaticArp = True)
+	net.addController('c0', controller = RemoteController, ip = '10.0.0.1')
 
 	net.start()
 
